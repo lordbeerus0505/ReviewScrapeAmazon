@@ -1,4 +1,5 @@
-#by Abhiram Natarajan @lordbeerus0505	
+# Written as part of https://www.scrapehero.com/how-to-scrape-amazon-product-reviews-using-python/
+# Modified to indian usage and easier scraping by Abhiram Natarajan @lordbeerus0505	
 from lxml import html  
 import json
 import requests
@@ -9,10 +10,9 @@ from time import sleep
 def ParseReviews(asin):
 	# for i in range(5):
 	# 	try:
-	#This script has only been tested with Amazon.com
+	#This script has only been tested with Amazon.in
 	amazon_url  = 'http://www.amazon.in/gp/product/'+asin
-	# Add some recent user agent to prevent amazon from blocking the request 
-	# Find some chrome user agent strings  here https://udger.com/resources/ua-list/browser-detail?browser=Chrome
+	
 	headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'}
 	page = requests.get(amazon_url,headers = headers,verify=False)
 	page_response = page.text
@@ -41,7 +41,7 @@ def ParseReviews(asin):
 	if not reviews:
 		raise ValueError('unable to find reviews in page')
 
-	#grabing the rating  section in product page
+	#Grabbing the rating  section in product page
 	for ratings in total_ratings:
 		extracted_rating = ratings.xpath('./td//a//text()')
 		if extracted_rating:
@@ -121,7 +121,7 @@ def ParseReviews(asin):
 			
 def ReadAsin(asin):
     extracted_data = []
-    print("Downloading  http://www.amazon.in/gp/product/"+"B07DCYNMB")
+    print("Downloading  http://www.amazon.in/gp/product/"+asin)
     extracted_data.append(ParseReviews(asin))
     #vary this value to allow for any blocking done by amazon
     sleep(7)
@@ -139,3 +139,4 @@ if __name__ == '__main__':
     asin=x[a:a+10]
     print(asin)
     ReadAsin(asin)
+
