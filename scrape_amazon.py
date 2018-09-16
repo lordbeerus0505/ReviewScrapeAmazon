@@ -131,12 +131,18 @@ def ReadAsin(asin):
 
 if __name__ == '__main__':
     x=input("Enter the url to extract reviews for...\n")
-    print(x)
+    
     a=x.find("gp/product/")
-    print(a)
-    a=a+11 #11 characters used in that
-    #asin is always of a fixed length of 10 digits
-    asin=x[a:a+10]
-    print(asin)
+    if a == -1:
+        print("Inside")
+        a=x.find("/dp/")
+        a+=4
+        asin=x[a:a+10]
+    else:
+   
+        a=a+11 #11 characters used in that
+        #asin is always of a fixed length of 10 digits
+        asin=x[a:a+10]
+        print(asin)
     ReadAsin(asin)
 
